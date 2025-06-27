@@ -2,7 +2,9 @@
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Eye, ArrowRight } from "lucide-react"
 import Image from "next/image"
+import PlayCircle from "@/components/ui/play-circle"
 
 interface Hunt {
   id: number
@@ -18,62 +20,45 @@ interface GamePreviewProps {
 
 export function GamePreview({ hunts }: GamePreviewProps) {
   return (
-    <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+    <div className="bg-[#ececfa] backdrop-blur-md rounded-2xl p-6 border border-white/20" style={{boxShadow: 'inset 0 1px 0 0 rgba(255, 255, 255, 0.1), inset 0 0 20px rgba(0, 0, 0, 0.15), 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'}}>
       <div className="flex items-center justify-between mb-4">
-        <span className="text-sm font-medium text-gray-600">Live Preview</span>
+        <span className="text-[16px] font-normal text-[#808080]">Live Preview</span>
         <div className="flex gap-2">
-          <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded-full text-xs">
-            ✓ Reveal
+          <Button size="sm" className="bg-gradient-to-b from-[#39A437] to-[#194F0C] hover:bg-green-700 text-white px-3 py-[6px] rounded-xl text-sm font-semibold">
+          <Eye /> Reveal
           </Button>
-          <Button size="sm" className="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 rounded-full text-xs">
-            ⚡ Test
-          </Button>
-          <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded-full text-xs">
-            👁 Hide
+          <Button size="sm" className="bg-gradient-to-br from-[#2F2FFF] to-[#E87785] hover:bg-purple-700 text-white px-3 py-[6px] rounded-xl text-sm font-semibold">
+            <PlayCircle /> Test
           </Button>
         </div>
       </div>
 
-      <div className="space-y-4">
+      <div className="">
         {hunts.slice(0, 2).map((hunt, index) => (
           <div
             key={hunt.id}
-            className={`rounded-2xl p-4 text-white ${
-              index === 0
-                ? "bg-gradient-to-b from-blue-800 to-purple-800"
-                : "bg-gradient-to-b from-purple-600 to-pink-600"
-            }`}
+            className={`rounded-tl-2xl rounded-tr-2xl p-4 text-white bg-gradient-to-b from-[#3737A4] to-[#0C0C4F]`}
           >
-            <div className="text-right text-sm mb-2">{index + 1}/10</div>
+            <div className="text-right text-[#B3B3E5] text-sm mb-2">{index + 1}/10</div>
             <h3 className="text-lg font-bold mb-2">
-              {hunt.title || (index === 0 ? "What is the fastest bird?" : "What is the biggest bird?")}
+              {hunt.title || (index === 0 ? "Title of the hunt" : "What is the fastets bird?")}
             </h3>
             <p className="text-sm opacity-90 mb-4">
               {hunt.description ||
                 (index === 0
-                  ? "The Description appears here. Viverra ipsum dolor sit amet, consectetur adipiscing elit."
-                  : "Long legs, tiny brain")}
+                  && "Description")}
             </p>
-            {index === 0 && (
-              <div className="relative mb-4">
-                <Image
-                  src="/placeholder.svg?height=120&width=200"
-                  alt="Bird illustration"
-                  width={200}
-                  height={120}
-                  className="rounded-lg w-full"
-                />
-              </div>
+            {index === 0 ? (
+             ""
+            ) : (
+             <Image src={hunt.link} alt="Logo" width={96} height={96} />
             )}
-            <Button className="bg-pink-500 hover:bg-pink-600 text-white px-4 py-1 rounded-full text-sm">
-              🎯 Hint To Unlock
-            </Button>
           </div>
         ))}
 
-        <div className="flex gap-2">
+        <div className="bg-white flex gap-2 p-6 rounded-bl-2xl rounded-br-2xl">
           <Input placeholder="Enter code to unlock" className="flex-1 px-4 py-2 rounded-full" />
-          <Button className="bg-slate-800 hover:bg-slate-700 text-white px-6 py-2 rounded-full">→</Button>
+          <Button className="bg-gradient-to-b from-[#3737A4] to-[#0C0C4F] hover:bg-purple-700 text-white px-6 py-2 rounded-xl"><ArrowRight className="w-4 h-4" /></Button>
         </div>
       </div>
     </div>

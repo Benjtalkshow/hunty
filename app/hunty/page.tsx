@@ -1,9 +1,11 @@
 "use client"
 
+import { dynapuff } from "@/lib/font"
+
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { ArrowLeft, Plus, Share, QrCode, Download } from "lucide-react"
+import { ArrowLeft, ArrowRight, Plus, Share, QrCode, Download } from "lucide-react"
 import { Header } from "@/components/Header"
 import { CreateGameTabs } from "@/components/CreateGameTabs"
 import { HuntForm } from "@/components/HuntForm"
@@ -191,7 +193,7 @@ export default function CreateGame() {
               {/* logo */ }
               <Image src="/icons/logo.png" alt="Logo" width={96} height={96} />
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-slate-800 mb-8">Create Hunty</h1>
+            <h1 className={`text-4xl md:text-5xl font-bold bg-gradient-to-b from-[#3737A4] to-[#0C0C4F] text-transparent bg-clip-text mb-8 ${dynapuff.variable} antialiased `}>Create Hunty</h1>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-8">
@@ -210,21 +212,26 @@ export default function CreateGame() {
                       onRemove={() => removeHunt(hunt.id)}
                     />
                   ))}
+                 
+                    <div className="inline-block p-[1px] rounded-2xl bg-gradient-to-b from-[#4A4AFF] to-[#0C0C4F]">
+                      <Button
+                        onClick={addHunt} 
+                        className="flex items-center gap-2 bg-white text-[#0C0C4F] font-bold text-xl px-5 py-3 rounded-2xl " 
+                      >
+                        <Plus className="w-6 h-6 text-[#0C0C4F]" />
+                        Add
+                      </Button>
+                    </div>
 
-                  <Button
-                    onClick={addHunt}
-                    className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-full"
-                  >
-                    <Plus className="w-4 h-4" />
-                    Add
-                  </Button>
+                    {/* </div> */}
 
                   <div className="flex justify-end">
-                    <Button className="bg-slate-800 hover:bg-slate-700 text-white px-8 py-2 rounded-full flex items-center gap-2">
+                    <Button className="bg-slate-800 hover:bg-slate-700 text-white text-xl font-extrabold
+                     px-6 py-4 rounded-xl flex items-center gap-2 cursor-pointer">
                       Next
-                      <span>→</span>
+                      <ArrowRight className="w-6 h-6" />
                     </Button>
-                  </div>
+                  </div>  
                 </div>
               )}
 
@@ -297,7 +304,7 @@ export default function CreateGame() {
                   <LeaderboardTable data={leaderboardData} isEmbedded={true} />
 
                   <div className="flex justify-between">
-                    <Button className="bg-gray-400 hover:bg-gray-500 text-white px-8 py-2 rounded-full flex items-center gap-2">
+                    <Button className="bg-gradient-to-b from-[#4A4AFF] to-[#0C0C4F] text- px-8 py-2 rounded-full flex items-center gap-2">
                       <ArrowLeft className="w-4 h-4" />
                       Previous
                     </Button>

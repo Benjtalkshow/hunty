@@ -24,9 +24,7 @@ export function GameCard({ title, type, onClick }: GameCardProps) {
               <div className="w-10 h-10 bg-gray-400 rounded"></div>
               <div className="w-10 h-10 bg-gray-400 rounded"></div>
 
-              <div className="w-10 h-10 bg-red-600 rounded flex items-center justify-center text-white font-bold">
-                A
-              </div>
+            
               <div className="w-10 h-10 bg-slate-600 rounded flex items-center justify-center text-white font-bold">
                 A
               </div>

@@ -12,7 +12,6 @@ export function CreateGameTabs({ activeTab, onTabChange }: CreateGameTabsProps) 
     { id: "create", label: "Create" },
     { id: "rewards", label: "Rewards" },
     { id: "publish", label: "Publish" },
-    { id: "leaderboard", label: "Leaderboard" },
   ] as const
 
   return (
@@ -22,7 +21,7 @@ export function CreateGameTabs({ activeTab, onTabChange }: CreateGameTabsProps) 
           key={tab.id}
           onClick={() => onTabChange(tab.id)}
           className={`px-6 py-3 rounded-xl ${
-            activeTab === tab.id ? "bg-[#0C0C4F] font-extrabold text-white" : "bg-gray-400 text-white hover:bg-gray-500 font-extrabold" 
+            activeTab === tab.id ? "bg-[#0C0C4F] font-extrabold text-white" : "bg-gradient-to-b from-[#576065] to-[#787884] text-white hover:bg-gray-500 font-extrabold" 
           }`}
         >
           {tab.label}
