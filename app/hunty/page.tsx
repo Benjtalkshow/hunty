@@ -18,7 +18,6 @@ import { GameCompleteModal } from "@/components/GameCompleteModal"
 import { PlayGame } from "@/components/PlayGame"
 import Share from "@/components/icons/Share"
 import PlayCircle from "@/components/icons/PlayCircle"
-
 import ToggleButton from "@/components/ToggleButton"
 
 interface Hunt {
@@ -261,11 +260,11 @@ export default function CreateGame() {
                   <div className="flex items-center justify-between">
                     <label className="block text-xl font-normal text-[#808080]">Give It A Name</label>
                     <Input 
-  value={gameName} 
-  placeholder="Hunty" 
-  onChange={(e) => setGameName(e.target.value)} 
-  className="w-[230px] [&::placeholder]:bg-gradient-to-r [&::placeholder]:from-[#3737A4] [&::placeholder]:to-[#0C0C4F] [&::placeholder]:bg-clip-text [&::placeholder]:text-transparent text-[16px]"
-/>
+                      value={gameName} 
+                      placeholder="Hunty" 
+                      onChange={(e) => setGameName(e.target.value)} 
+                      className="w-[230px] [&::placeholder]:bg-gradient-to-r [&::placeholder]:from-[#3737A4] [&::placeholder]:to-[#0C0C4F] [&::placeholder]:bg-clip-text [&::placeholder]:text-transparent text-[16px]"
+                    />
                   </div>
 
                   <div className="flex items-center justify-between">
