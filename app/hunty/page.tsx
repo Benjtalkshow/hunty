@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { ReactNode, useState } from "react"
 import Image from "next/image"
 
 import { dynapuff } from "@/lib/font"
@@ -19,6 +19,8 @@ import { PlayGame } from "@/components/PlayGame"
 import Share from "@/components/icons/Share"
 import PlayCircle from "@/components/icons/PlayCircle"
 import ToggleButton from "@/components/ToggleButton"
+import Replay from "@/components/icons/Replay"
+import Medal from "@/components/icons/Medal"
 
 interface Hunt {
   id: number
@@ -36,13 +38,13 @@ interface Reward {
 }
 
 interface LeaderboardEntry {
-  position: number
-  name: string
-  points: number
-  icon: string
+  position: number;
+  name: string;
+  points: number;
+  icon: ReactNode;
 }
 
-export default function CreateGame() {
+export default function CreateGame() {  
   const [activeTab, setActiveTab] = useState<"create" | "rewards" | "publish" | "leaderboard">("create")
   const [hunts, setHunts] = useState<Hunt[]>([{ id: 1, title: "", description: "", link: "", code: "" }])
   const [rewards, setRewards] = useState<Reward[]>([
@@ -58,11 +60,11 @@ export default function CreateGame() {
   const [isPlaying, setIsPlaying] = useState(false)
 
   const leaderboardData: LeaderboardEntry[] = [
-    { position: 1, name: "JohnDoe", points: 9, icon: "🥇" },
-    { position: 2, name: "TDH", points: 6, icon: "🥈" },
-    { position: 3, name: "User904", points: 5, icon: "🥉" },
-    { position: 4, name: "0xE394fd1329g3a3wh23fH", points: 4, icon: "4" },
-    { position: 5, name: "JohnDoe", points: 3, icon: "5" },
+    { position: 1, name: "JohnDoe", points: 9, icon: <Medal position={1} /> },
+    { position: 2, name: "TDH", points: 6, icon: <Medal position={2} /> },
+    { position: 3, name: "User904", points: 5, icon: <Medal position={3} /> },
+    { position: 4, name: "0xE394fd1329g3a3wh23fH", points: 4, icon: <Medal  /> },
+    { position: 5, name: "JohnDoe", points: 3, icon: <Medal  /> },
   ]
 
   const updateHunt = (id: number, field: keyof Hunt, value: string) => {
@@ -123,7 +125,7 @@ export default function CreateGame() {
 
   if (activeTab === "leaderboard" && !isPlaying) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#f9f9ff] to-[#fce4ec]">
+      <div className="min-h-screen bg-gradient-to-tr from-blue-100 bg-purple-100 to-[#f9f9ff]">
         <Header
           isConnected={true}
           balance="24.2453"
@@ -132,7 +134,7 @@ export default function CreateGame() {
           onDisconnect={() => {}}
         />
 
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-[1500px] px-14 pt-10 pb-12 bg-white mx-auto rounded-4xl relative">
           <div className="flex items-center gap-4 mb-8">
             <Button
               variant="ghost"
@@ -145,15 +147,16 @@ export default function CreateGame() {
           </div>
 
           <div className="text-center mb-8">
-            <div className="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center mx-auto mb-6 border-4 border-white shadow-lg">
-              <span className="text-white font-bold text-2xl">GG</span>
-            </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-slate-800 mb-6">Leaderboard - Hunty</h1>
+          <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 border-4 border-[#0C0C4F] shadow-lg absolute left-1/2 top-1 -translate-x-1/2 -translate-y-1/2">
+            {/* logo */ }
+            <Image src="/icons/logo.png" alt="Logo" width={96} height={96} />
+          </div>
+            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-br from-[#3737A4] to-[#0C0C4F] text-transparent bg-clip-text mb-6">Leaderboard - Hunty</h1>
             <div className="flex justify-center gap-4 mb-8">
-              <Button className="bg-pink-500 hover:bg-pink-600 text-white px-6 py-2 rounded-full flex items-center gap-2">
-                <span>🔄</span> Replay
+              <Button className="bg-gradient-to-b from-[#E3225C] to-[#7B1C4A] text-white px-6 py-2 rounded-xl flex items-center gap-2">
+               <Replay /> Replay
               </Button>
-              <Button className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-full flex items-center gap-2">
+              <Button className="bg-gradient-to-b from-[#39A437] to-[#194F0C] text-white px-6 py-2 rounded-xl flex items-center gap-2">
                 <Share />
                 Share Link
               </Button>
@@ -225,8 +228,6 @@ export default function CreateGame() {
                         Add
                       </Button>
                     </div>
-
-                    {/* </div> */}
 
                   <div className="flex justify-end">
                     <Button className="bg-slate-800 hover:bg-slate-700 text-white text-xl font-extrabold
@@ -353,7 +354,7 @@ export default function CreateGame() {
               {activeTab === "leaderboard" && (
                 <div className="space-y-6">
                   <h3 className="text-lg font-semibold">Leaderboard</h3>
-                  <LeaderboardTable data={leaderboardData} isEmbedded={true} />
+                  <LeaderboardTable data={leaderboardData}/>
 
                   <div className="flex justify-between">
                     <Button className="bg-gradient-to-b from-[#4A4AFF] to-[#0C0C4F] text- px-8 py-2 rounded-full flex items-center gap-2">
