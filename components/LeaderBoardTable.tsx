@@ -1,45 +1,44 @@
 "use client"
 
+import { ReactNode } from "react"
+
 interface LeaderboardEntry {
   position: number
   name: string
   points: number
-  icon: string
+  icon: ReactNode
 }
 
 interface LeaderboardTableProps {
   data: LeaderboardEntry[]
-  isEmbedded?: boolean
 }
 
-export function LeaderboardTable({ data, isEmbedded = false }: LeaderboardTableProps) {
-  const containerClass = isEmbedded
-    ? "bg-white rounded-lg overflow-hidden border"
-    : "bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg max-w-2xl mx-auto"
+export function LeaderboardTable({ data}: LeaderboardTableProps) {
+  const containerClass = "rounded-none max-w-2xl mx-auto";
 
   return (
     <div className={containerClass}>
-      <table className="w-full">
-        <thead>
-          <tr className="bg-slate-800 text-white">
-            <th className={`px-4 py-3 text-left ${isEmbedded ? "" : "rounded-l-lg"}`}>Position</th>
-            <th className="px-4 py-3 text-left">Display Name / Wallet Address</th>
-            <th className={`px-4 py-3 text-left ${isEmbedded ? "" : "rounded-r-lg"}`}>Points Won</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((entry, index) => (
-            <tr key={index} className={index % 2 === 0 ? "bg-gray-50" : "bg-white"}>
-              <td className="px-4 py-3 flex items-center gap-2">
-                <span>{entry.icon}</span>
-                <span>{entry.position}</span>
-              </td>
-              <td className="px-4 py-3">{entry.name}</td>
-              <td className="px-4 py-3">{entry.points}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <table className="w-full rounded-none border-l border-[#808080] border-collapse">
+  <thead>
+    <tr className="bg-gradient-to-b from-[#3737A4] to-[#0C0C4F] text-white">
+      <th className="px-4 py-2 text-center border border-r-2 border-white">Position</th>
+      <th className="px-4 py-2 text-left border border-r-2 border-white">Display Name / Wallet Address</th>
+      <th className="px-4 py-2 text-center">Points Won</th>
+    </tr>
+  </thead>
+  <tbody>
+    {data.map((entry, index) => (
+      <tr key={index} className="bg-white">
+        <td className="px-4 py-2 flex items-center justify-center gap-2 text-center border-r-2 border-[#808080] border-b-2 ">
+          <span>{entry.icon}</span>
+          <span className="text-[16px] bg-gradient-to-b from-[#576065] to-[#787884] bg-clip-text text-transparent">{entry.position}</span>
+        </td>
+        <td className="px-4 py-2 border-r-2 border-[#808080] border-b-2 text-[16px] bg-gradient-to-b from-[#576065] to-[#787884] bg-clip-text text-transparent">{entry.name}</td>
+        <td className="px-4 py-2 text-center border border-b-2 border-[#808080] text-[16px] bg-gradient-to-b from-[#576065] to-[#787884] bg-clip-text text-transparent">{entry.points}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
     </div>
   )
 }
