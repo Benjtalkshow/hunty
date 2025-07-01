@@ -9,7 +9,6 @@ import { ArrowLeft} from "lucide-react"
 import { Header } from "@/components/Header"
 import Share from "./icons/Share"
 import Replay from "./icons/Replay"
-// import { Card, CardDescription, CardTitle } from "@/components/ui/card"
 import { HuntCards } from "./HuntCards"
 
 
