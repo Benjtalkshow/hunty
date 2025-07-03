@@ -21,6 +21,7 @@ import PlayCircle from "@/components/icons/PlayCircle"
 import ToggleButton from "@/components/ToggleButton"
 import Replay from "@/components/icons/Replay"
 import Medal from "@/components/icons/Medal"
+import {Reward} from "@/components/RewardsPanel"
 
 interface Hunt {
   id: number
@@ -31,11 +32,11 @@ interface Hunt {
   image?: string
 }
 
-interface Reward {
-  place: number
-  amount: number
-  icon: string
-}
+// interface Reward {
+//   place: number
+//   amount: number
+//   icon: ReactNode
+// }
 
 interface LeaderboardEntry {
   position: number;
@@ -47,10 +48,7 @@ interface LeaderboardEntry {
 export default function CreateGame() {  
   const [activeTab, setActiveTab] = useState<"create" | "rewards" | "publish" | "leaderboard">("create")
   const [hunts, setHunts] = useState<Hunt[]>([{ id: 1, title: "", description: "", link: "", code: "" }])
-  const [rewards, setRewards] = useState<Reward[]>([
-    { place: 1, amount: 5.43, icon: "🥇" },
-    { place: 2, amount: 5.43, icon: "🥈" },
-  ])
+  const [rewards, setRewards] = useState<Reward[]>([]);
   const [gameName, setGameName] = useState("Hunty")
   const [timer, setTimer] = useState({ minutes: 0, seconds: 15 })
   const [endDate, setEndDate] = useState("")
@@ -66,6 +64,20 @@ export default function CreateGame() {
     { position: 4, name: "0xE394fd1329g3a3wh23fH", points: 4, icon: <Medal  /> },
     { position: 5, name: "JohnDoe", points: 3, icon: <Medal  /> },
   ]
+
+  const addReward = () => {
+    setRewards([...rewards, { place: rewards.length + 1, amount: 5.43, icon: <Medal position={rewards.length + 1} /> }])
+  }
+
+  console.log(rewards)
+
+  const deleteReward = (place: number) => {
+    setRewards(rewards.filter((reward) => reward.place !== place))
+  }
+
+  // const updateReward = (place: number, amount: number) => {
+  //   setRewards(rewards.map((reward) => (reward.place === place ? { ...reward, amount } : reward)))
+  // }
 
   const updateHunt = (id: number, field: keyof Hunt, value: string) => {
     setHunts(hunts.map((hunt) => (hunt.id === id ? { ...hunt, [field]: value } : hunt)))
@@ -241,7 +253,7 @@ export default function CreateGame() {
 
               {activeTab === "rewards" && (
                 <div className="space-y-6">
-                  <RewardsPanel rewards={rewards} onUpdateReward={updateReward} />
+                  <RewardsPanel rewards={rewards} onUpdateReward={updateReward} onAddReward={addReward} onDeleteReward={deleteReward} />
 
                   <div className="flex justify-between">
                     <Button className="bg-gradient-to-b from-[#576065] to-[#787884] hover:bg-gray-500 text-white px-8 py-2 rounded-xl flex items-center gap-2 text-xl font-black">

@@ -4,25 +4,32 @@ import { Button } from "@/components/ui/button"
 import { Plus, Minus } from "lucide-react"
 import Trash from "@/components/icons/trash"
 import Coin from "@/components/icons/Coin"
-interface Reward {
+import { ReactNode } from "react"
+
+export interface Reward {
   place: number
   amount: number
-  icon: string
+  icon: ReactNode
 }
 
-interface RewardsPanelProps {
-  rewards: Reward[]
-  onUpdateReward: (place: number, amount: number) => void
+export interface RewardsPanelProps {
+  rewards: Reward[];
+  onUpdateReward: (place: number, amount: number) => void;
+  onAddReward: () => void;
+  onDeleteReward: (place: number) => void;
 }
 
-export function RewardsPanel({ rewards, onUpdateReward }: RewardsPanelProps) {
+export function RewardsPanel({ rewards, onUpdateReward, onAddReward, onDeleteReward }: RewardsPanelProps) {
+
+
+
   return (
     <div className="space-y-6">
       {rewards.map((reward) => (
         <div key={reward.place} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
           <div className="flex items-center gap-3">
             <span className="text-2xl">{reward.icon}</span>
-            <span className="font-normal text-2xl bg-gradient-to-l from-[#3737A4] to-[#0C0C4F] text-transparent bg-clip-text">{reward.place === 1 ? "1st" : "2nd"} Place</span>
+            <span className="font-normal text-2xl bg-gradient-to-l from-[#3737A4] to-[#0C0C4F] text-transparent bg-clip-text">{reward.place == 1 && "1st"} {reward.place == 2 && "2nd"} {reward.place == 3 && "3rd"} {reward.place > 3 && `${reward.place}th`} Place</span>
           </div>
           <div className="flex items-center gap-2">
               <Button
@@ -51,16 +58,23 @@ export function RewardsPanel({ rewards, onUpdateReward }: RewardsPanelProps) {
             >
               <Plus className="w-3 h-3" />
             </Button>
-            <Button variant="ghost" className="w-8 h-8 p-3 bg-gradient-to-b from-[#FD0A44] to-[#932331] text-white rounded-lg ml-2 cursor-pointer hover:opacity-80">
+            <Button 
+              variant="ghost" 
+              className="w-8 h-8 p-3 bg-gradient-to-b from-[#FD0A44] to-[#932331] text-white rounded-lg ml-2 cursor-pointer hover:opacity-80"
+              onClick={() => onDeleteReward(reward.place)}
+            >
               <Trash/>  
             </Button>
           </div>
         </div>
       ))}
 
-        <Button className="bg-white text-[#808080] text-[16px] font-medium hover:bg-gray-100 px-6 py-2 rounded-full border-2 border-dashed border-[#808080] cursor-pointer">
+      <Button
+          className="bg-white text-[#808080] text-[16px] font-medium hover:bg-gray-100 px-6 py-2 rounded-full border-2 border-dashed border-[#808080] cursor-pointer"
+          onClick={onAddReward}
+                >
           Add Reward for Runner-up
-        </Button>
+      </Button>
     </div>
   )
 }
