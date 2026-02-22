@@ -92,3 +92,25 @@ export async function createHunt(
 
   return { txHash: res.hash }
 }
+
+export type PlayerScore = {
+  walletAddress: string;
+  name?: string;
+  points: number;
+}
+
+// Currently returns mock data since there is no deployed contract ABI.
+export async function get_hunt_leaderboard(hunt_id: number): Promise<PlayerScore[]> {
+  // Simulate network delay
+  await new Promise(resolve => setTimeout(resolve, 500));
+
+  return [
+    { walletAddress: "GDA1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234", name: "JohnDoe", points: 9 },
+    { walletAddress: "GDB2234567890ABCDEF1234567890ABCDEF1234567890ABCDEF2234", name: "TDH", points: 6 },
+    { walletAddress: "GDC3234567890ABCDEF1234567890ABCDEF1234567890ABCDEF3234", name: "User904", points: 5 },
+    { walletAddress: "GDD4234567890ABCDEF1234567890ABCDEF1234567890ABCDEF4234", points: 4 }, // No name, should truncate
+    { walletAddress: "GDE5234567890ABCDEF1234567890ABCDEF1234567890ABCDEF5234", points: 3 }, // No name, should truncate 
+    { walletAddress: "GDF6234567890ABCDEF1234567890ABCDEF1234567890ABCDEF6234", name: "Alice", points: 15 }, // Should be sorted to top
+    { walletAddress: "GDG7234567890ABCDEF1234567890ABCDEF1234567890ABCDEF7234", points: 1 },
+  ];
+}
