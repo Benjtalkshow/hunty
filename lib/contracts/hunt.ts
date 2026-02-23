@@ -4,6 +4,23 @@ export type CreateHuntResult = {
   txHash: string
 }
 
+/**
+ * Thrown when the contract returns an AnswerIncorrect error for submit_answer.
+ * Callers should catch this specifically to show a "Try Again" UI without reloading.
+ */
+export class AnswerIncorrectError extends Error {
+  constructor() {
+    super("AnswerIncorrect: the submitted answer does not match.")
+    this.name = "AnswerIncorrectError"
+  }
+}
+
+export type SubmitAnswerResult = {
+  txHash: string
+  /** The contract event emitted on success. */
+  event: "ClueCompleted"
+}
+
 // Soroban-friendly createHunt helper (testnet default).
 // This builds a small Stellar transaction (manageData) carrying the hunt
 // payload, asks the user's Soroban/Freighter wallet to sign it, and submits
