@@ -1,7 +1,6 @@
 /**
- * Shared hunt list for creator view and (optionally) Game Arcade.
- * Filter by creator == userAddress for "my hunts". Ideally contract would expose
- * get_hunts_by_creator; until then we list all and filter client-side.
+ * Shared hunt list for dashboard (creator hunts) and Game Arcade (active hunts).
+ * Persisted in localStorage so activated hunts appear in the arcade after refresh.
  */
 
 export type HuntStatus = "Active" | "Completed" | "Draft"
@@ -12,8 +11,6 @@ export interface StoredHunt {
   description: string
   cluesCount: number
   status: HuntStatus
-  /** Creator wallet address (Stellar public key). Used to filter "my hunts". */
-  creatorAddress?: string
 }
 
 const STORAGE_KEY = "hunty_hunts"
@@ -25,7 +22,6 @@ const SEED_HUNTS: StoredHunt[] = [
     description: "Race across town to uncover hidden murals and landmarks.",
     cluesCount: 5,
     status: "Active",
-    creatorAddress: "GDEMO_CREATOR_ADDRESS",
   },
   {
     id: 2,
@@ -33,7 +29,6 @@ const SEED_HUNTS: StoredHunt[] = [
     description: "Solve riddles scattered around campus before the timer ends.",
     cluesCount: 7,
     status: "Active",
-    creatorAddress: "GDEMO_CREATOR_ADDRESS",
   },
   {
     id: 3,
@@ -41,7 +36,6 @@ const SEED_HUNTS: StoredHunt[] = [
     description: "A playful intro game for new teammates around the office.",
     cluesCount: 4,
     status: "Completed",
-    creatorAddress: "GDEMO_CREATOR_ADDRESS",
   },
   {
     id: 4,
@@ -49,7 +43,6 @@ const SEED_HUNTS: StoredHunt[] = [
     description: "Find hidden clues in the park.",
     cluesCount: 3,
     status: "Draft",
-    creatorAddress: "GDEMO_CREATOR_ADDRESS",
   },
   {
     id: 5,
@@ -57,7 +50,6 @@ const SEED_HUNTS: StoredHunt[] = [
     description: "Discover art and history through clues.",
     cluesCount: 0,
     status: "Draft",
-    creatorAddress: "GDEMO_CREATOR_ADDRESS",
   },
 ]
 
@@ -82,31 +74,25 @@ function writeHunts(hunts: StoredHunt[]): void {
   }
 }
 
+/** All hunts (for Game Arcade: filter by status === "Active"). */
 export function getAllHunts(): StoredHunt[] {
   return readHunts()
 }
 
-/**
- * Hunts created by the given wallet address.
- * Filter client-side by creator == userAddress.
- * (Replace with contract get_hunts_by_creator or indexer when available.)
- */
-export function getHuntsByCreator(creatorAddress: string): StoredHunt[] {
-  if (!creatorAddress) return []
-  return readHunts().filter((h) => h.creatorAddress === creatorAddress)
+/** Creator hunts for dashboard (all stored hunts; creator filter can be added later). */
+export function getCreatorHunts(): StoredHunt[] {
+  return readHunts()
 }
 
+/** Update a hunt's status (e.g. Draft → Active after activate_hunt). */
 export function updateHuntStatus(huntId: number, status: HuntStatus): void {
   const hunts = readHunts().map((h) => (h.id === huntId ? { ...h, status } : h))
   writeHunts(hunts)
 }
 
+/** Add a new hunt (e.g. after createHunt). */
 export function addHunt(hunt: StoredHunt): void {
   const hunts = readHunts()
   if (hunts.some((h) => h.id === hunt.id)) return
   writeHunts([...hunts, hunt])
-}
-
-export function getHuntById(huntId: number): StoredHunt | undefined {
-  return readHunts().find((h) => h.id === huntId)
 }
